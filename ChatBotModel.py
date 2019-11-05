@@ -31,6 +31,5 @@ class CAUMealBot(TelegramBot):
         self.updater.dispatcher.add_handler(CommandHandler(cmd, func))
 
     def start(self):
-#        self.sendMessage('CAU 학식 봇입니다!')
         self.updater.start_polling()
         self.updater.idle()
