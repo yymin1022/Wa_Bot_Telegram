@@ -1,11 +1,17 @@
-import telegram
+import sys
+import ChatBotModel
 
-apiFile = open("/home/pi/server/CAU_Meal_Bot_Telegram_KEY", 'r')
-botToken = apiFile.read().rstrip('\n')
-apiFile.close()
+def proc_breakfast(bot, update):
+    cauMealBot.sendMessage('Breakfast')
 
-bot = telegram.Bot(token = botToken)
-botUpdates = bot.getUpdates()
+def proc_lunch(bot, update):
+    cauMealBot.sendMessage('Lunch')
 
-for u in botUpdates:
-    print(u.message)
+def proc_dinner(bot, update):
+    cauMealBot.sendMessage('Dinner')
+
+cauMealBot = ChatBotModel.CAUMealBot()
+cauMealBot.add_handler('Breakfast', proc_breakfast)
+cauMealBot.add_handler('Lunch', proc_lunch)
+cauMealBot.add_handler('Dinner', proc_dinner)
+cauMealBot.start()
