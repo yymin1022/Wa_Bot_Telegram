@@ -1,16 +1,16 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 
-str303Lunch = ""
-str303Dinner = ""
-str308Breakfast = ""
-str308Lunch = ""
-str308Dinner = ""
-str309Lunch = ""
-str309Dinner = ""
-str310Breakfast = ""
-str310Lunch = ""
-str310Dinner = ""
+str303Lunch = "303(법학)관 점심메뉴\n\n"
+str303Dinner = "303(법학)관 저녁메뉴\n\n"
+str308Breakfast = "308관(기숙사) 아침메뉴\n\n"
+str308Lunch = "308관(기숙사) 점심메뉴\n\n"
+str308Dinner = "308관(기숙사) 저녁메뉴\n\n"
+str309Lunch = "309관(기숙사) 점심메뉴\n\n"
+str309Dinner = "309관(기숙사) 저녁메뉴\n\n"
+str310Breakfast = "310(경영경제)관 아침메뉴\n\n"
+str310Lunch = "310(경영경제)관 점심메뉴\n\n"
+str310Dinner = "310(경영경제)관 저녁메뉴\n\n"
 
 url303 = "https://bds.bablabs.com/restaurants/LTIzODAwOTc1?campus_id=biV2tiK41v"
 url308 = "https://bds.bablabs.com/restaurants/LTIzODA3NTM2?campus_id=biV2tiK41v"
