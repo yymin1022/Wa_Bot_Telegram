@@ -92,7 +92,7 @@ for divs in div_dinner.find_all("div", class_= "card card-menu"):
     str310Dinner = str310Dinner + divs.find("div", class_="card-text").text + "\n"
     
 file310Breakfast = open("/home/pi/serverDB/310_breakfast", 'w')
-file310Breakfast.write(str310Dinner)
+file310Breakfast.write(str310Breakfast)
 file310Breakfast.close()
 file310Lunch = open("/home/pi/serverDB/310_lunch", 'w')
 file310Lunch.write(str310Lunch)
