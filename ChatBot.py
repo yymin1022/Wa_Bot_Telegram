@@ -61,10 +61,9 @@ def sendMenuMessage(update, context):
         db = open("/home/pi/serverDB/310_dinner", 'r')
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
-
-def easteregg_handler:
+    # EASTEREGG
     if ("와.." in update.message.text) or ("와;;" in update.message.text):
-        num = random.random(1, 6)
+        num = random.randrange(1, 6)
         if num == 1:
             strMessage = "갑부.."
         if num == 2:
@@ -79,6 +78,7 @@ def easteregg_handler:
     if ("와!" in update.message.text):
         context.bot.send_message(chat_id = update.effective_chat.id, text = "샌즈!")
         context.bot.send_message(chat_id = update.effective_chat.id, text = "아시는구나!")
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "겁.나.어.렵.습.니.다.")
 
 message_handler = MessageHandler(Filters.text, sendMenuMessage)
 dispatcher.add_handler(message_handler)
