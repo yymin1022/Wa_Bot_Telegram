@@ -61,5 +61,23 @@ def sendMenuMessage(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
 
+def easteregg_handler:
+    if ("와.." in update.message.text) or ("와;;" in update.message.text):
+        num = random.random(1, 6)
+        if num == 1:
+            strMessage = "갑부.."
+        if num == 2:
+            strMessage = "마스터.."
+        if num == 3:
+            strMessage = "역시.."
+        if num == 4:
+            strMessage = "인싸.."
+        if num == 5:
+            strMessage = "기만;;"
+        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
+    if ("와!" in update.message.text):
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "샌즈!")
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "아시는구나!")
+
 message_handler = MessageHandler(Filters.text, sendMenuMessage)
 dispatcher.add_handler(message_handler)
