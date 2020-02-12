@@ -6,7 +6,7 @@ from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Up
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
-apiKeyFile = open("/home/pi/server/CAU_Meal_Bot_Telegram_KEY", 'r')
+apiKeyFile = open("/home/yong/server/CAU_Meal_Bot_Telegram_KEY", 'r')
 TOKEN = apiKeyFile.read().rstrip('\n')
 apiKeyFile.close()
 
@@ -61,7 +61,42 @@ def sendMenuMessage(update, context):
         db = open("/home/pi/serverDB/310_dinner", 'r')
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
-    # EASTEREGG
+
+    if("ㅋ" in update.message.text):
+        text = update.message.text
+        num = text.count("ㅋ")
+        num += text.count("ㅌ")
+        num += text.count("ㄱ")
+        num += text.count("ㄲ")
+        num += text.count("ㄴ")
+        num += text.count("ㅎ")
+        if num >= 5:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "뭘 웃어요;")
+    
+    if ("헐.." in update.message.text):
+        strMessage = "쉽덕;;"
+        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
+
+    if ("아.." in update.message.text):
+        num = random.randrange(1, 5)
+        if num == 1:
+            strMessage = "그렇군요..."
+        if num == 2:
+            strMessage = "글쿤.."
+        if num == 3:
+            strMessage = "그래요.."
+        if num == 4:
+            strMessage = "좋네요.."
+        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
+
+    if ("이런.." in update.message.text):
+        num = random.randrange(1, 3)
+        if num == 1:
+            strMessage = "안타깝군요.."
+        if num == 2:
+            strMessage = "안됐군요.."
+        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
+
     if ("와.." in update.message.text) or ("와;;" in update.message.text):
         num = random.randrange(1, 6)
         if num == 1:
