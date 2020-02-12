@@ -62,9 +62,10 @@ def sendMenuMessage(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
 
-    if("ㅋ" in update.message.text):
+    if ("ㅋ" in update.message.text) or ("ㅎ" in update.message.text):
         text = update.message.text
-        num = text.count("ㅋ")
+        num = 0
+        num += text.count("ㅋ")
         num += text.count("ㅌ")
         num += text.count("ㄱ")
         num += text.count("ㄲ")
