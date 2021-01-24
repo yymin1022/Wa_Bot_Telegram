@@ -62,59 +62,5 @@ def sendMenuMessage(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
 
-    if ("ㅋ" in update.message.text) or ("ㅎ" in update.message.text):
-        text = update.message.text
-        num = 0
-        num += text.count("ㅋ")
-        num += text.count("ㅌ")
-        num += text.count("ㄱ")
-        num += text.count("ㄲ")
-        num += text.count("ㄴ")
-        num += text.count("ㅎ")
-        if num >= 5:
-            context.bot.send_message(chat_id = update.effective_chat.id, text = "뭘 웃어요;")
-    
-    if ("헐.." in update.message.text):
-        strMessage = "쉽덕;;"
-        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
-
-    if ("아.." in update.message.text):
-        num = random.randrange(1, 5)
-        if num == 1:
-            strMessage = "그렇군요..."
-        if num == 2:
-            strMessage = "글쿤.."
-        if num == 3:
-            strMessage = "그래요.."
-        if num == 4:
-            strMessage = "좋네요.."
-        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
-
-    if ("이런.." in update.message.text):
-        num = random.randrange(1, 3)
-        if num == 1:
-            strMessage = "안타깝군요.."
-        if num == 2:
-            strMessage = "안됐군요.."
-        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
-
-    if ("와.." in update.message.text) or ("와;;" in update.message.text):
-        num = random.randrange(1, 6)
-        if num == 1:
-            strMessage = "갑부.."
-        if num == 2:
-            strMessage = "마스터.."
-        if num == 3:
-            strMessage = "역시.."
-        if num == 4:
-            strMessage = "인싸.."
-        if num == 5:
-            strMessage = "기만;;"
-        context.bot.send_message(chat_id = update.effective_chat.id, text = strMessage)
-    if ("와!" in update.message.text):
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "샌즈!")
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "아시는구나!")
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "겁.나.어.렵.습.니.다.")
-
 message_handler = MessageHandler(Filters.text, sendMenuMessage)
 dispatcher.add_handler(message_handler)
