@@ -66,5 +66,8 @@ def sendWaMessage(update, context):
     if "와.." in update.message.text:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "")
 
-message_handler = MessageHandler(Filters.text, sendMenuMessage)
-dispatcher.add_handler(message_handler)
+handlerMenu = MessageHandler(Filters.text, sendMenuMessage)
+handlerWa = MessageHandler(Filters.text, sendWaMessage)
+
+dispatcher.add_handler(handlerMenu)
+dispatcher.add_handler(handlerWa)
