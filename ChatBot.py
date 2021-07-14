@@ -61,9 +61,7 @@ def sendMenuMessage(update, context):
         db = open("/home/pi/serverDB/310_dinner", 'r')
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
-    if "와.." in update.message.text:
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "갑부;;")
-
+        
 def sendWaMessage(update, context):
     # DEBUG
     print(update.message.text)
@@ -72,7 +70,7 @@ def sendWaMessage(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = "갑부;;")
 
 handlerMenu = MessageHandler(Filters.text, sendMenuMessage)
-handlerWa = MessageHandler(Filters.text, sendWaMessage)
-
 dispatcher.add_handler(handlerMenu)
+
+handlerWa = MessageHandler(Filters.text, sendWaMessage)
 dispatcher.add_handler(handlerWa)
