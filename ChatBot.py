@@ -20,7 +20,15 @@ start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 updater.start_polling()
 
-def sendMenuMessage(update, context):
+def sendMessage(update, context):
+    strInput = update.message.text
+
+    if sendMenuMessage(strInput) != "None":
+        context.bot.send_message(chat_id=update.effective_chat.it, text=sendMenuMessage(strInput))
+    elif sendWaMessage(strInput) != "None":
+        context.bot.send_message(chat_id=update.effective_chat.it, text=sendWaMessage(strInput))
+
+def sendMenuMessage(message):
     if ("303" in update.message.text) and (("중식" in update.message.text) or ("점심" in update.message.text)):
         db = open("/home/pi/serverDB/303_lunch", 'r')
         context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
@@ -66,8 +74,5 @@ def sendWaMessage(update, context):
     if "와.." in update.message.text:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "갑부;;")
 
-handlerMenu = MessageHandler(Filters.text, sendMenuMessage)
-dispatcher.add_handler(handlerMenu)
-
-handlerWa = MessageHandler(Filters.text, sendWaMessage)
-dispatcher.add_handler(handlerWa)
+messageHandler = MessageHandler(Filters.text, sendMessage)
+dispatcher.add_handler(messageHandler)
