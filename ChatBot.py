@@ -63,9 +63,6 @@ def sendMenuMessage(update, context):
         db.close()
         
 def sendWaMessage(update, context):
-    # DEBUG
-    print(update.message.text)
-
     if "와.." in update.message.text:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "갑부;;")
 
