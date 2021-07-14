@@ -62,5 +62,9 @@ def sendMenuMessage(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = db.read())
         db.close()
 
+def sendWaMessage(update, context):
+    if "와.." in update.message.text:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "")
+
 message_handler = MessageHandler(Filters.text, sendMenuMessage)
 dispatcher.add_handler(message_handler)
