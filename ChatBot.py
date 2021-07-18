@@ -23,14 +23,14 @@ updater.start_polling()
 def sendMessage(update, context):
     strInput = update.message.text
 
-    if sendMenuMessage(strInput) != "None":
+    if sendMenuMessage(strInput) != "":
         context.bot.send_message(chat_id=update.effective_chat.it, text=sendMenuMessage(strInput))
-    elif sendWaMessage(strInput) != "None":
+    elif sendWaMessage(strInput) != None:
         context.bot.send_message(chat_id=update.effective_chat.it, text=sendWaMessage(strInput))
 
 def sendMenuMessage(message):
     strResult = ""
-    
+
     if ("303" in message) and (("중식" in message) or ("점심" in message)):
         db = open("/home/pi/serverDB/303_lunch", 'r')
         strResult = db.read()
