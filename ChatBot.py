@@ -74,7 +74,7 @@ def sendMenuMessage(message):
         
 def sendWaMessage(update, context):
     if "와.." in update.message.text:
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "갑부;;")
+        return "갑부;;"
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
