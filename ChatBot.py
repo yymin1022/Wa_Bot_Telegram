@@ -24,9 +24,9 @@ def sendMessage(update, context):
     strInput = update.message.text
 
     if sendMenuMessage(strInput) != "":
-        context.bot.send_message(chat_id=update.effective_chat.it, text=sendMenuMessage(strInput))
+        context.bot.send_message(chat_id=update.effective_chat.id, text=sendMenuMessage(strInput))
     elif sendWaMessage(strInput) != None:
-        context.bot.send_message(chat_id=update.effective_chat.it, text=sendWaMessage(strInput))
+        context.bot.send_message(chat_id=update.effective_chat.id, text=sendWaMessage(strInput))
 
 def sendMenuMessage(message):
     strResult = ""
@@ -75,8 +75,10 @@ def sendMenuMessage(message):
     return strResult
         
 def sendWaMessage(message):
+    strResult = ""
     if "와.." in message:
-        return "갑부;;"
+        strResult = "갑부;;"
+    return strResult
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
