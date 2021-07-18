@@ -67,6 +67,12 @@ def sendMenuMessage(message, update, context):
         db.close()
         
 def sendWaMessage(message, update, context):
+    if "ㄹㅇㅋㅋ" in message:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="ㄹㅇㅋㅋ")
+    if "멈춰" in message:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="멈춰!!")
+    if "무야호" in message:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="그만큼 신나신다는거지~")
     if "아.." in message:
         randInt = random.randrange(0, 5)
         messageStr = ""
