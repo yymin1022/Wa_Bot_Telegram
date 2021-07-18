@@ -25,63 +25,54 @@ def sendMessage(update, context):
     sendWaMessage(update.message.text, update, context)
 
 def sendMenuMessage(message, update, context):
-    strResult = ""
-
     if ("303" in message) and (("중식" in message) or ("점심" in message)):
         db = open("/home/pi/serverDB/303_lunch", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("303" in message) and (("석식" in message) or ("저녁" in message)):
         db = open("/home/pi/serverDB/303_dinner", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("308" in message) and (("조식" in message) or ("아침" in message)):
         db = open("/home/pi/serverDB/308_breakfast", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("308" in message) and (("중식" in message) or ("점심" in message)):
         db = open("/home/pi/serverDB/308_lunch", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("308" in message) and (("석식" in message) or ("저녁" in message)):
         db = open("/home/pi/serverDB/308_dinner", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("309" in message) and (("중식" in message) or ("점심" in message)):
         db = open("/home/pi/serverDB/309_lunch", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("309" in message) and (("석식" in message) or ("저녁" in message)):
         db = open("/home/pi/serverDB/309_dinner", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("310" in message) and (("조식" in message) or ("아침" in message)):
         db = open("/home/pi/serverDB/310_breakfast", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("310" in message) and (("중식" in message) or ("점심" in message)):
         db = open("/home/pi/serverDB/310_lunch", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
     if ("310" in message) and (("석식" in message) or ("저녁" in message)):
         db = open("/home/pi/serverDB/310_dinner", 'r')
-        strResult = db.read()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=db.read())
         db.close()
-    if strResult != "":
-        context.bot.send_message(chat_id=update.effective_chat.id, text=strResult)
         
 def sendWaMessage(message, update, context):
-    strResult = ""
-
-    print(message)
-
     if "와.." in message:
-        strResult = "갑부;;"
+        context.bot.send_message(chat_id=update.effective_chat.id, text="갑부;;")
     if "와!" in message:
-        strResult = "샌즈!"
-    
-    if strResult != "":
-        context.bot.send_message(chat_id=update.effective_chat.id, text=strResult)
+        context.bot.send_message(chat_id=update.effective_chat.id, text="샌즈!")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="아시는구나!")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="이거 겁.나.어.렵.습.니.다.")
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
