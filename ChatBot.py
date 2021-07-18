@@ -84,7 +84,21 @@ def sendWaMessage(message, update, context):
         
         context.bot.send_message(chat_id=update.effective_chat.id, text=messageStr)
     if "와.." in message:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="갑부;;")
+        randInt = random.randrange(0, 5)
+        messageStr = ""
+
+        if randInt == 0:
+            messageStr = "갑부;;"
+        elif randInt == 1:
+            messageStr = "기만;;"
+        elif randInt == 2:
+            messageStr = "ㄹㅇ;;"
+        elif randInt == 3:
+            messageStr = "마스터;;"
+        elif randInt == 4:
+            messageStr = "역시;;"
+        
+        context.bot.send_message(chat_id=update.effective_chat.id, text=messageStr)
     if "와!" in message:
         context.bot.send_message(chat_id=update.effective_chat.id, text="샌즈!")
         context.bot.send_message(chat_id=update.effective_chat.id, text="아시는구나!")
