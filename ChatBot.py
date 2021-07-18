@@ -29,6 +29,8 @@ def sendMessage(update, context):
         context.bot.send_message(chat_id=update.effective_chat.it, text=sendWaMessage(strInput))
 
 def sendMenuMessage(message):
+    strResult = ""
+    
     if ("303" in message) and (("중식" in message) or ("점심" in message)):
         db = open("/home/pi/serverDB/303_lunch", 'r')
         strResult = db.read()
