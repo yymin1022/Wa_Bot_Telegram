@@ -68,7 +68,21 @@ def sendMenuMessage(message, update, context):
         
 def sendWaMessage(message, update, context):
     if "아.." in message:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="글쿤..")
+        randInt = random.randrange(0, 5)
+        messageStr = ""
+
+        if randInt == 0:
+            messageStr = "글쿤.."
+        elif randInt == 1:
+            messageStr = "그래요.."
+        elif randInt == 2:
+            messageStr = "그렇군요.."
+        elif randInt == 3:
+            messageStr = "안돼.."
+        elif randInt == 4:
+            messageStr = "메리카노.."
+        
+        context.bot.send_message(chat_id=update.effective_chat.id, text=messageStr)
     if "와.." in message:
         context.bot.send_message(chat_id=update.effective_chat.id, text="갑부;;")
     if "와!" in message:
