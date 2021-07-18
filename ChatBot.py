@@ -21,14 +21,10 @@ dispatcher.add_handler(start_handler)
 updater.start_polling()
 
 def sendMessage(update, context):
-    strInput = update.message.text
+    sendMenuMessage(update.message.text, update, context)
+    sendWaMessage(update.message.text, update, context)
 
-    if sendMenuMessage(strInput) != "":
-        context.bot.send_message(chat_id=update.effective_chat.id, text=sendMenuMessage(strInput))
-    elif sendWaMessage(strInput) != None:
-        context.bot.send_message(chat_id=update.effective_chat.id, text=sendWaMessage(strInput))
-
-def sendMenuMessage(message):
+def sendMenuMessage(message, update, context):
     strResult = ""
 
     if ("303" in message) and (("중식" in message) or ("점심" in message)):
@@ -72,13 +68,17 @@ def sendMenuMessage(message):
         strResult = db.read()
         db.close()
     
-    return strResult
+    context.bot.send_message(chat_id=update.effective_chat.id, text=strResult)
         
-def sendWaMessage(message):
+def sendWaMessage(message, update, context):
     strResult = ""
+
     if "와.." in message:
         strResult = "갑부;;"
-    return strResult
+    if "와!" in message:
+        strResult = "샌즈!"
+    
+    context.bot.send_message(chat_id=update.effective_chat.id, text=strResult)
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
