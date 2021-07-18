@@ -73,6 +73,8 @@ def sendMenuMessage(message, update, context):
 def sendWaMessage(message, update, context):
     strResult = ""
 
+    print(message)
+
     if "와.." in message:
         strResult = "갑부;;"
     if "와!" in message:
