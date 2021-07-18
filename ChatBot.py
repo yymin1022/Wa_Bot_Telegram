@@ -67,16 +67,22 @@ def sendMenuMessage(message, update, context):
         db.close()
         
 def sendWaMessage(message, update, context):
+    if "아.." in message:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="글쿤..")
     if "와.." in message:
         context.bot.send_message(chat_id=update.effective_chat.id, text="갑부;;")
     if "와!" in message:
         context.bot.send_message(chat_id=update.effective_chat.id, text="샌즈!")
         context.bot.send_message(chat_id=update.effective_chat.id, text="아시는구나!")
         context.bot.send_message(chat_id=update.effective_chat.id, text="이거 겁.나.어.렵.습.니.다.")
+    if "이런.." in message:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="안됐군요..")
     if "자라" in message:
         context.bot.send_message(chat_id=update.effective_chat.id, text="전기요금아깝다;;")
     if "자야" in message or "개발해야" in message:
         context.bot.send_message(chat_id=update.effective_chat.id, text="구라ㅡㅡ;;")
+    if "하.." in message:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="코딩하기 싫다..")
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
