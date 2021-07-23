@@ -69,9 +69,12 @@ def sendMenuMessage(message, update, context):
         
 def sendWaMessage(message, update, context):
     requestData = dict([("msg", message), ("room", update.effective_chat.id), ("sender", update.effective_chat.id)])
-    serverResult = requests.post("https://wa-api.defcon.or.kr/getMessage", json=requestData)
-    
-    context.bot.send_message(chat_id=update.effective_chat.id, text=str(serverResult.json()))
+    resultData = requests.post("https://wa-api.defcon.or.kr/getMessage", json=requestData)
+
+    resultMessage = resultData.json()
+
+    if(resultMessage != message):
+        context.bot.send_message(chat_id=update.effective_chat.id, text=str(resultMessage))
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
