@@ -74,7 +74,7 @@ def sendWaMessage(message, update, context):
 
     resultMessage = resultData["DATA"]["msg"]
 
-    if(resultData["DATA"]["msg"] == 0):
+    if(resultData["RESULT"]["RESULT_CODE"] == 0):
         context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessage)
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
