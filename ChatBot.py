@@ -74,7 +74,7 @@ def sendWaMessage(message, update, context):
 
     resultMessage = json.loads(resultData.json())
 
-    if(resultMessage != message):
+    if(resultMessage != ""):
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(resultMessage["msg"]))
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
