@@ -1,3 +1,4 @@
+import json
 import logging
 import random
 import requests
@@ -71,10 +72,10 @@ def sendWaMessage(message, update, context):
     requestData = dict([("msg", message), ("room", update.effective_chat.id), ("sender", update.effective_chat.id)])
     resultData = requests.post("https://wa-api.defcon.or.kr/getMessage", json=requestData)
 
-    resultMessage = resultData.json()
+    resultMessage = json.loads(resultData.json())
 
     if(resultMessage != message):
-        context.bot.send_message(chat_id=update.effective_chat.id, text=str(resultMessage))
+        context.bot.send_message(chat_id=update.effective_chat.id, text=str(resultMessage["msg"]))
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
 dispatcher.add_handler(messageHandler)
