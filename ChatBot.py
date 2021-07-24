@@ -75,15 +75,13 @@ def sendWaMessage(message, update, context):
     resultMessage = resultData["DATA"]["msg"]
 
     if resultData["RESULT"]["RESULT_CODE"] == 0:
-        if resultMessage.find("\\n") > 0:
-            resultMessage = resultMessage.replace("\\n", "\n")
-            context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessage)
-        elif resultMessage.find("\\m") > 0:
+        if resultMessage.find("\\m") > 0:
             resultMessageList = resultMessage.split("\\m")
 
             for resultMessageItem in resultMessageList:
                 context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessageItem)
         else:
+            resultMessage = resultMessage.replace("\\n", "\n")
             context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessage)
 
 messageHandler = MessageHandler(Filters.text, sendMessage)
