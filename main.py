@@ -8,7 +8,7 @@ from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Up
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
-apiKeyFile = open("/home/server/CAU_Meal_Bot_Telegram_KEY", 'r')
+apiKeyFile = open("/home/server/Wa_Bot_Telegram/TOKEN_FILE", 'r')
 TOKEN = apiKeyFile.read().rstrip('\n')
 apiKeyFile.close()
 
