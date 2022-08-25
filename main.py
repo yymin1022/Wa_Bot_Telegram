@@ -7,7 +7,7 @@ import random
 import requests
 
 TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
-WA_URL = os.getenv("WA_API_SERVER", "localhost:8080")
+WA_API_SERVER = os.getenv("WA_API_SERVER", "localhost:8080")
 
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
