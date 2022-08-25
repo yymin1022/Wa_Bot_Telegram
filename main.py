@@ -1,12 +1,11 @@
 import json
+import os
 import random
 import requests
 import telegram
 from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater
 
-apiKeyFile = open("/home/server/Wa_Bot_Telegram/TOKEN_FILE", 'r')
-TOKEN = apiKeyFile.read().rstrip('\n')
-apiKeyFile.close()
+TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
 
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
