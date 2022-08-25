@@ -1,12 +1,8 @@
 import json
-import logging
 import random
 import requests
 import telegram
 from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater
-
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)
 
 apiKeyFile = open("/home/server/Wa_Bot_Telegram/TOKEN_FILE", 'r')
 TOKEN = apiKeyFile.read().rstrip('\n')
