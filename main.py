@@ -1,16 +1,13 @@
+from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater
+import telegram
+
 import json
-import logging
+import os
 import random
 import requests
-import telegram
-from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)
-
-apiKeyFile = open("/home/server/Wa_Bot_Telegram/TOKEN_FILE", 'r')
-TOKEN = apiKeyFile.read().rstrip('\n')
-apiKeyFile.close()
+TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
+WA_URL = os.getenv("WA_API_SERVER", "localhost:8080")
 
 updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
@@ -27,7 +24,7 @@ def sendMessage(update, context):
 
 def sendWaMessage(message, update, context):
     requestData = dict([("msg", message), ("room", update.effective_chat.id), ("sender", update.effective_chat.id)])
-    resultData = requests.post("https://wa-api.defcon.or.kr/getMessage", json=requestData).json()
+    resultData = requests.post(WA_API_SERVER, json=requestData).json()
 
     resultMessage = resultData["DATA"]["msg"]
 
