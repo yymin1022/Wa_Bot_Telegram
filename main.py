@@ -17,7 +17,7 @@ async def sendMessage(update, context):
 
 
 async def sendWaMessage(message, update, context):
-    requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", update.effective_chat.id)])
+    requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", update.effective_user.id)])
     resultData = requests.post(WA_API_SERVER, json=requestData).json()
 
     resultMessage = resultData["DATA"]["msg"]
