@@ -17,20 +17,21 @@ async def sendMessage(update, context):
 
 
 async def sendWaMessage(message, update, context):
-    requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", update.effective_user.id)])
-    resultData = requests.post(WA_API_SERVER, json=requestData).json()
+    if update.effective_user.is_bot == False:
+        requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", update.effective_user.id)])
+        resultData = requests.post(WA_API_SERVER, json=requestData).json()
 
-    resultMessage = resultData["DATA"]["msg"]
+        resultMessage = resultData["DATA"]["msg"]
 
-    if resultData["RESULT"]["RESULT_CODE"] == 0:
-        if resultMessage.find("\\m") > 0:
-            resultMessageList = resultMessage.split("\\m")
+        if resultData["RESULT"]["RESULT_CODE"] == 0:
+            if resultMessage.find("\\m") > 0:
+                resultMessageList = resultMessage.split("\\m")
 
-            for resultMessageItem in resultMessageList:
-                await context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessageItem)
-        else:
-            resultMessage = resultMessage.replace("\\n", "\n")
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessage)
+                for resultMessageItem in resultMessageList:
+                    await context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessageItem)
+            else:
+                resultMessage = resultMessage.replace("\\n", "\n")
+                await context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessage)
 
 
 def main():
