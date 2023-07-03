@@ -23,7 +23,7 @@ def sendMessage(update, context):
     sendWaMessage(update.message.text, update, context)
 
 def sendWaMessage(message, update, context):
-    requestData = dict([("msg", message), ("room", update.effective_chat.id), ("sender", update.effective_chat.id)])
+    requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", update.effective_chat.id)])
     resultData = requests.post(WA_API_SERVER, json=requestData).json()
 
     resultMessage = resultData["DATA"]["msg"]
