@@ -1,9 +1,7 @@
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from telegram import Update
 
-import json
 import os
-import random
 import requests
 
 TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
