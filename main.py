@@ -1,6 +1,7 @@
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from telegram import Update
 
+import base64
 import os
 import requests
 
@@ -13,13 +14,24 @@ async def start(update, context):
 
 
 async def sendMessage(update, context):
-    await sendWaMessage(update.message.text, update, context)
+    message_text = update.message.text or update.message.caption or ""
+    await sendWaMessage(message_text, update, context)
 
 
 async def sendWaMessage(message, update, context):
     if update.effective_user.is_bot == False:
-        requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", update.effective_user.id)])
-        resultData = requests.post(WA_API_SERVER, json=requestData).json()
+        image_base64 = None
+        if update.message.photo:
+            photo = update.message.photo[-1]
+            photo_file = await context.bot.get_file(photo.file_id)
+            img_bytearray = await photo_file.download_as_bytearray()
+            image_base64 = base64.b64encode(img_bytearray).decode("utf-8")
+
+        requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", str(update.effective_user.id))])
+        if image_base64:
+            requestData["image"] = image_base64
+
+        resultData = requests.post(f"{WA_API_SERVER}/getMessage", json=requestData).json()
 
         resultMessage = resultData["DATA"]["msg"]
 
@@ -37,7 +49,7 @@ async def sendWaMessage(message, update, context):
 def main():
     application = Application.builder().token(TOKEN).build()
 
-    messageHandler = MessageHandler(filters.TEXT, sendMessage)
+    messageHandler = MessageHandler(filters.TEXT | filters.PHOTO, sendMessage)
     application.add_handler(messageHandler)
 
     start_handler = CommandHandler('start', start)
