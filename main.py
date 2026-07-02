@@ -34,10 +34,17 @@ async def sendWaMessage(message, update, context):
         if image_base64:
             requestData["image"] = image_base64
 
+        url = WA_API_SERVER
+        if not url.endswith("/getMessage"):
+            if url.endswith("/"):
+                url = f"{url}getMessage"
+            else:
+                url = f"{url}/getMessage"
+
         try:
             response = await asyncio.to_thread(
                 requests.post,
-                f"{WA_API_SERVER}/getMessage",
+                url,
                 json=requestData,
                 timeout=10
             )
