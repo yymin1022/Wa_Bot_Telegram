@@ -1,12 +1,15 @@
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from telegram import Update
 
+import asyncio
 import base64
 import os
 import requests
 
 TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
 WA_API_SERVER = os.getenv("WA_API_SERVER", "localhost:8080")
+if not WA_API_SERVER.startswith("http://") and not WA_API_SERVER.startswith("https://"):
+    WA_API_SERVER = f"http://{WA_API_SERVER}"
 
 
 async def start(update, context):
@@ -31,7 +34,17 @@ async def sendWaMessage(message, update, context):
         if image_base64:
             requestData["image"] = image_base64
 
-        resultData = requests.post(f"{WA_API_SERVER}/getMessage", json=requestData).json()
+        try:
+            response = await asyncio.to_thread(
+                requests.post,
+                f"{WA_API_SERVER}/getMessage",
+                json=requestData,
+                timeout=10
+            )
+            resultData = response.json()
+        except Exception as e:
+            print(f"[Error] Failed to connect or parse response: {e}")
+            return
 
         resultMessage = resultData["DATA"]["msg"]
 
@@ -40,10 +53,16 @@ async def sendWaMessage(message, update, context):
                 resultMessageList = resultMessage.split("\\m")
 
                 for resultMessageItem in resultMessageList:
-                    await context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessageItem)
+                    await context.bot.send_message(
+                        chat_id=update.effective_chat.id,
+                        reply_to_message_id=update.message.message_id,
+                        text=resultMessageItem)
             else:
                 resultMessage = resultMessage.replace("\\n", "\n")
-                await context.bot.send_message(chat_id=update.effective_chat.id, text=resultMessage)
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    reply_to_message_id=update.message.message_id,
+                    text=resultMessage)
 
 
 def main():
