@@ -46,6 +46,13 @@ async def sendWaMessage(message, update, context):
             print(f"[Error] Failed to connect or parse response: {e}")
             return
 
+        if (not isinstance(resultData, dict) or 
+            "RESULT" not in resultData or 
+            "DATA" not in resultData or 
+            "msg" not in resultData["DATA"]):
+            print(f"[Error] Invalid response structure: {resultData}")
+            return
+
         resultMessage = resultData["DATA"]["msg"]
 
         if resultData["RESULT"]["RESULT_CODE"] == 0:
