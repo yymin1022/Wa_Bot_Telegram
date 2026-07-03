@@ -30,7 +30,29 @@ async def sendWaMessage(message, update, context):
             img_bytearray = await photo_file.download_as_bytearray()
             image_base64 = base64.b64encode(img_bytearray).decode("utf-8")
 
-        requestData = dict([("msg", message), ("room", str(update.effective_chat.id)), ("sender", str(update.effective_user.id))])
+        reply_prefix = ""
+        if update.message.reply_to_message:
+            orig = update.message.reply_to_message
+            if not image_base64 and orig.photo:
+                try:
+                    photo = orig.photo[-1]
+                    photo_file = await context.bot.get_file(photo.file_id)
+                    img_bytearray = await photo_file.download_as_bytearray()
+                    image_base64 = base64.b64encode(img_bytearray).decode("utf-8")
+                except Exception as e:
+                    print(f"[Error] Failed to download reply original photo: {e}")
+            
+            orig_user = orig.from_user.first_name if orig.from_user else "알 수 없음"
+            orig_text = orig.text or orig.caption or ""
+            if not orig_text and orig.photo:
+                orig_text = "📎 [사진 첨부됨]"
+            elif not orig_text and orig.document:
+                orig_text = "📎 [첨부파일]"
+                
+            reply_prefix = f"(답장 대상: {orig_user}님의 메시지 \"{orig_text}\")\n---\n"
+
+        message_content_to_send = reply_prefix + message
+        requestData = dict([("msg", message_content_to_send), ("room", str(update.effective_chat.id)), ("sender", str(update.effective_user.id))])
         if image_base64:
             requestData["image"] = image_base64
 
