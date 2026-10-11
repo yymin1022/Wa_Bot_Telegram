@@ -33,6 +33,14 @@ def process_image_to_base64(image_bytes: bytes) -> str:
         return base64.b64encode(output_buffer.getvalue()).decode("utf-8")
 
 
+async def delayed_typing(chat, delay: float = 1.0):
+    try:
+        await asyncio.sleep(delay)
+        await chat.send_action(action=ChatAction.TYPING)
+    except asyncio.CancelledError:
+        pass
+
+
 async def start(update, context):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="와.. 역시;;")
 
@@ -96,8 +104,8 @@ async def sendWaMessage(message, update, context):
             else:
                 url = f"{url}/getMessage"
 
+        typing_task = asyncio.create_task(delayed_typing(update.message.chat, delay=1.0))
         try:
-            await update.message.chat.send_action(action=ChatAction.TYPING)
             response = await asyncio.to_thread(
                 requests.post,
                 url,
@@ -108,6 +116,8 @@ async def sendWaMessage(message, update, context):
         except Exception as e:
             print(f"[Error] Failed to connect or parse response: {e}")
             return
+        finally:
+            typing_task.cancel()
 
         if (not isinstance(resultData, dict) or 
             "RESULT" not in resultData or 
