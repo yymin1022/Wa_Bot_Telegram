@@ -121,16 +121,10 @@ async def sendWaMessage(message, update, context):
                 resultMessageList = resultMessage.split("\\m")
 
                 for resultMessageItem in resultMessageList:
-                    await context.bot.send_message(
-                        chat_id=update.effective_chat.id,
-                        reply_to_message_id=update.message.message_id,
-                        text=resultMessageItem)
+                    await update.message.reply_text(resultMessageItem)
             else:
                 resultMessage = resultMessage.replace("\\n", "\n")
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    reply_to_message_id=update.message.message_id,
-                    text=resultMessage)
+                await update.message.reply_text(resultMessage)
 
 
 def main():
