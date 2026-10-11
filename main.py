@@ -23,22 +23,26 @@ async def sendMessage(update, context):
 
 async def sendWaMessage(message, update, context):
     if update.effective_user.is_bot == False:
-        image_base64 = None
+        images = []
         if update.message.photo:
-            photo = update.message.photo[-1]
-            photo_file = await context.bot.get_file(photo.file_id)
-            img_bytearray = await photo_file.download_as_bytearray()
-            image_base64 = base64.b64encode(img_bytearray).decode("utf-8")
+            try:
+                photo = update.message.photo[-1]
+                photo_file = await context.bot.get_file(photo.file_id)
+                img_bytearray = await photo_file.download_as_bytearray()
+                images.append(base64.b64encode(img_bytearray).decode("utf-8"))
+            except Exception as e:
+                print(f"[Error] Failed to download message photo: {e}")
 
-        reply_prefix = ""
+        reply_message = None
         if update.message.reply_to_message:
             orig = update.message.reply_to_message
-            if not image_base64 and orig.photo:
+            reply_images = []
+            if orig.photo:
                 try:
                     photo = orig.photo[-1]
                     photo_file = await context.bot.get_file(photo.file_id)
                     img_bytearray = await photo_file.download_as_bytearray()
-                    image_base64 = base64.b64encode(img_bytearray).decode("utf-8")
+                    reply_images.append(base64.b64encode(img_bytearray).decode("utf-8"))
                 except Exception as e:
                     print(f"[Error] Failed to download reply original photo: {e}")
             
@@ -49,12 +53,20 @@ async def sendWaMessage(message, update, context):
             elif not orig_text and orig.document:
                 orig_text = "📎 [첨부파일]"
                 
-            reply_prefix = f"(답장 대상: {orig_user}님의 메시지 \"{orig_text}\")\n---\n"
+            reply_message = {
+                "msg": orig_text,
+                "sender": orig_user,
+                "images": reply_images
+            }
 
-        message_content_to_send = reply_prefix + message
-        requestData = dict([("msg", message_content_to_send), ("room", str(update.effective_chat.id)), ("sender", str(update.effective_user.id))])
-        if image_base64:
-            requestData["image"] = image_base64
+        requestData = {
+            "msg": message,
+            "room": str(update.effective_chat.id),
+            "sender": str(update.effective_user.id),
+            "images": images
+        }
+        if reply_message:
+            requestData["replyMessage"] = reply_message
 
         url = WA_API_SERVER
         if not url.endswith("/getMessage"):
