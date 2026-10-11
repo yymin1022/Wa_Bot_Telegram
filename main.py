@@ -1,15 +1,35 @@
-from telegram.ext import Application, CommandHandler, MessageHandler, filters
-from telegram import Update
-
 import asyncio
 import base64
+import io
 import os
+
+from PIL import Image, ImageOps
 import requests
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
 WA_API_SERVER = os.getenv("WA_API_SERVER", "localhost:8080")
 if not WA_API_SERVER.startswith("http://") and not WA_API_SERVER.startswith("https://"):
     WA_API_SERVER = f"http://{WA_API_SERVER}"
+
+
+def process_image_to_base64(image_bytes: bytes) -> str:
+    with Image.open(io.BytesIO(image_bytes)) as img:
+        try:
+            img = ImageOps.exif_transpose(img)
+        except Exception:
+            pass
+
+        if img.mode not in ("RGB", "RGBA"):
+            img = img.convert("RGB")
+
+        if max(img.width, img.height) > 1280:
+            img.thumbnail((1280, 1280), Image.Resampling.LANCZOS)
+
+        output_buffer = io.BytesIO()
+        img.save(output_buffer, format="PNG", optimize=True)
+        return base64.b64encode(output_buffer.getvalue()).decode("utf-8")
 
 
 async def start(update, context):
@@ -29,9 +49,9 @@ async def sendWaMessage(message, update, context):
                 photo = update.message.photo[-1]
                 photo_file = await context.bot.get_file(photo.file_id)
                 img_bytearray = await photo_file.download_as_bytearray()
-                images.append(base64.b64encode(img_bytearray).decode("utf-8"))
+                images.append(process_image_to_base64(img_bytearray))
             except Exception as e:
-                print(f"[Error] Failed to download message photo: {e}")
+                print(f"[Error] Failed to process message photo: {e}")
 
         reply_message = None
         if update.message.reply_to_message:
@@ -42,9 +62,9 @@ async def sendWaMessage(message, update, context):
                     photo = orig.photo[-1]
                     photo_file = await context.bot.get_file(photo.file_id)
                     img_bytearray = await photo_file.download_as_bytearray()
-                    reply_images.append(base64.b64encode(img_bytearray).decode("utf-8"))
+                    reply_images.append(process_image_to_base64(img_bytearray))
                 except Exception as e:
-                    print(f"[Error] Failed to download reply original photo: {e}")
+                    print(f"[Error] Failed to process reply original photo: {e}")
             
             orig_user = orig.from_user.first_name if orig.from_user else "알 수 없음"
             orig_text = orig.text or orig.caption or ""
