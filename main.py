@@ -6,6 +6,7 @@ import os
 from PIL import Image, ImageOps
 import requests
 from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 TOKEN = os.getenv("TELEGRAM_TOKEN", "NO_TOKEN")
@@ -96,6 +97,7 @@ async def sendWaMessage(message, update, context):
                 url = f"{url}/getMessage"
 
         try:
+            await update.message.chat.send_action(action=ChatAction.TYPING)
             response = await asyncio.to_thread(
                 requests.post,
                 url,
