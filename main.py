@@ -75,7 +75,7 @@ async def sendWaMessage(message, update, context):
                 except Exception as e:
                     print(f"[Error] Failed to process reply original photo: {e}")
             
-            orig_user = orig.from_user.first_name if orig.from_user else "알 수 없음"
+            orig_user = orig.from_user.full_name if orig.from_user else "알 수 없음"
             orig_text = orig.text or orig.caption or ""
             if not orig_text and orig.photo:
                 orig_text = "📎 [사진 첨부됨]"
@@ -88,10 +88,11 @@ async def sendWaMessage(message, update, context):
                 "images": reply_images
             }
 
+        sender_name = update.effective_user.full_name if update.effective_user else "알 수 없음"
         requestData = {
             "msg": message,
             "room": str(update.effective_chat.id),
-            "sender": str(update.effective_user.id),
+            "sender": sender_name,
             "images": images
         }
         if reply_message:
