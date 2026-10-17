@@ -141,7 +141,10 @@ async def sendWaMessage(message, update, context):
 
 
 def main():
-    application = Application.builder().token(TOKEN).build()
+    application = (Application.builder()
+                   .token(TOKEN)
+                   .concurrent_updates(True)
+                   .build())
 
     messageHandler = MessageHandler(filters.TEXT | filters.PHOTO, sendMessage)
     application.add_handler(messageHandler)
